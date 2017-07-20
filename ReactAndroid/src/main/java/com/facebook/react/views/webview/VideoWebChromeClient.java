@@ -24,6 +24,7 @@ public class VideoWebChromeClient extends WebChromeClient {
   private Activity mActivity;
   private View mWebView;
   private View mVideoView;
+  private Long mShowStamp;
 
   public VideoWebChromeClient(Activity activity, WebView webView) {
     mWebView = webView;
@@ -32,6 +33,7 @@ public class VideoWebChromeClient extends WebChromeClient {
 
   @Override
   public void onShowCustomView(View view, CustomViewCallback callback) {
+    mShowStamp = System.currentTimeMillis();
     if (mVideoView != null) {
       callback.onCustomViewHidden();
       return;
@@ -51,6 +53,7 @@ public class VideoWebChromeClient extends WebChromeClient {
   @Override
   public void onHideCustomView() {
     if (mVideoView == null) {
+    if (mVideoView == null || System.currentTimeMillis() - mShowStamp < 100) {
       return;
     }
 
